@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Svit Vasad Campus Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body class="auth-mode">
+  <!-- Auth Container -->
+  <div class="auth-container" id="auth-panel">
+    <div class="auth-card">
+      <h1>Svit Vasad Campus</h1>
+      <h2>Sign up / Login</h2>
+      <label>Email</label>
+      <input type="email" id="email" placeholder="you@example.com" />
+      <label>Password</label>
+      <input type="password" id="password" placeholder="Password" />
+      <div class="actions">
+        <button id="signup-btn">Sign up</button>
+        <button id="login-btn" class="btn-primary">Login</button>
+      </div>
+      <div id="message"></div>
+    </div>
+  </div>
+
+  <!-- Dashboard Container (Hidden by default) -->
+  <div class="dashboard-wrapper hidden" id="profile-panel">
+    <!-- Top Bar -->
+    <header class="top-bar">
+      <div class="logo">
+        <i class="fa-solid fa-house"></i> Svit Vasad Campus
+      </div>
+      <div class="user-actions">
+        <span id="welcome-msg">Welcome, Svit Vasad Campus</span>
+        <button id="logout-btn" title="Logout">
+          <i class="fa-solid fa-power-off"></i>
+        </button>
+      </div>
+    </header>
+
+    <div class="main-layout">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-section sms-balance">
+          <div class="section-header">
+            <span>SMS Balance</span>
+            <i class="fa-solid fa-rotate"></i>
+          </div>
+          <div class="balance-item">
+            <span>Button WhatsApp:</span>
+            <span class="count">178567</span>
+          </div>
+          <div class="balance-item">
+            <span>Voice SMS:</span>
+            <span class="count">0</span>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <div class="nav-item active" data-view="dashboard">
+            <i class="fa-solid fa-desktop"></i> Dashboard
+          </div>
+          <div class="nav-item has-submenu open" data-view="whatsapp">
+            <div class="nav-header">
+              <i class="fa-solid fa-comment-dots"></i> Virtual WhatsApp
+              <span class="badge">4</span>
+            </div>
+            <div class="submenu">
+              <div class="submenu-item active" data-view="campaign">-> Button WhatsApp</div>
+              <div class="submenu-item" data-view="templates">-> WA Templates</div>
+              <div class="submenu-item" data-view="reports">-> Report</div>
+              <div class="submenu-item" data-view="archive">-> Archive Report</div>
+            </div>
+          </div>
+          <div class="nav-item">
+            <i class="fa-solid fa-envelope"></i> Voice SMS
+            <span class="badge">3</span>
+          </div>
+          <div class="nav-item">
+            <i class="fa-solid fa-address-book"></i> Contacts
+            <span class="badge">2</span>
+          </div>
+          <div class="nav-item">
+            <i class="fa-solid fa-gears"></i> Common Settings
+            <span class="badge">1</span>
+          </div>
+          <div class="nav-item">
+            <i class="fa-solid fa-list-ul"></i> Logs
+            <span class="badge">2</span>
+          </div>
+          <div class="nav-item">
+            <i class="fa-solid fa-credit-card"></i> Payment
+            <span class="badge">1</span>
+          </div>
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="content-area">
+        <div class="breadcrumb">
+          <i class="fa-solid fa-house"></i> / View Account
+        </div>
+
+        <section id="dashboard-view" class="view-section">
+          <div class="view-header">
+            <h1>Dashboard <small>Overview of your SMS activity</small></h1>
+          </div>
+
+          <div class="quick-actions">
+            <div class="action-btn sms"><i class="fa-solid fa-envelope"></i> <span class="action-label">SMS</span></div>
+            <div class="action-btn water"><i class="fa-solid fa-droplet"></i></div>
+            <div class="action-btn chart"><i class="fa-solid fa-chart-simple"></i></div>
+            <div class="action-btn phone"><i class="fa-solid fa-phone"></i></div>
+            <div class="action-btn api"><i class="fa-solid fa-gears"></i> <span class="action-label">API</span></div>
+          </div>
+
+          <div class="stats-cards">
+            <div class="stat-card purple">
+              <div class="card-content">
+                <div class="card-info">
+                  <h3>SMS sent this week</h3>
+                  <div class="card-icon"><i class="fa-solid fa-envelope"></i></div>
+                </div>
+                <div class="card-value">0</div>
+              </div>
+            </div>
+            <div class="stat-card lime">
+              <div class="card-content">
+                <div class="card-info">
+                  <h3>SMS sent this month</h3>
+                  <div class="card-icon"><i class="fa-solid fa-envelope-open"></i></div>
+                </div>
+                <div class="card-value">0</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Virtual WhatsApp Campaign View -->
+        <section id="campaign-view" class="view-section hidden">
+          <div class="breadcrumb">
+            <i class="fa-solid fa-house"></i> / Send Button WhatsApp
+          </div>
+
+          <div class="view-header">
+            <h1>Send Button WhatsApp <small>quickly and efficiently</small></h1>
+          </div>
+
+          <div id="whatsapp-status-panel" class="status-panel">
+            <div class="status-header">
+              <span>WhatsApp Status: <strong id="wa-status">Checking...</strong></span>
+              <button id="refresh-wa" class="btn-small">🔄 Refresh</button>
+            </div>
+            <div id="qr-container" class="hidden">
+              <p>Scan the QR code with your WhatsApp app:</p>
+              <img id="qr-code" src="" alt="WhatsApp QR Code" />
+            </div>
+          </div>
+
+          <div class="campaign-form-container">
+            <div class="form-grid">
+              <!-- Choose Coverage -->
+              <div class="form-row-new">
+                <div class="form-label">Choose Coverage :</div>
+                <div class="form-input">
+                  <select id="country-code">
+                    <option value="+91">(+91) India</option>
+                    <option value="+1">(+1) USA</option>
+                    <option value="+44">(+44) UK</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Type -->
+              <div class="form-row-new">
+                <div class="form-label">Type :</div>
+                <div class="form-input">
+                  <select id="msg-type">
+                    <option value="select">Select</option>
+                    <option value="text">Text</option>
+                    <option value="media">Media only</option>
+                    <option value="text_media">Text with Media</option>
+                    <option value="text_button">Text with Button</option>
+                    <option value="text_media_button">Text+Media+Button</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Mobile Numbers -->
+              <div class="form-row-new">
+                <div class="form-label">Mobile Numbers ( * )<br><small class="hint-red">Please add Country code before Numbers</small></div>
+                <div class="form-input">
+                  <textarea id="mobile-numbers" placeholder="919898000001
+919898000002
+919898000003
+919898000004"></textarea>
+                  <div class="total-numbers">Total Numbers : <span id="number-count">0</span></div>
+                </div>
+              </div>
+
+              <!-- Message Content -->
+              <div class="form-row-new" id="message-content-row">
+                <div class="form-label">Message Content :</div>
+                <div class="form-input">
+                  <textarea id="message-text" placeholder="Type your WhatsApp message here..."></textarea>
+                </div>
+              </div>
+
+              <!-- Options -->
+              <div class="form-row-new">
+                <div class="form-label">Options :</div>
+                <div class="form-input flex-row">
+                  <label class="checkbox-label"><input type="checkbox" id="remove-duplicates" checked> Remove Duplicates</label>
+                  <label class="checkbox-label"><input type="checkbox" id="remove-blacklist" checked> Remove BlackList</label>
+                </div>
+              </div>
+
+              <!-- SMS Type -->
+              <div class="form-row-new">
+                <div class="form-label">SMS Type :</div>
+                <div class="form-input">
+                  <label class="radio-label"><input type="radio" name="sms-type" checked> Text SMS</label>
+                </div>
+              </div>
+
+              <!-- Schedule -->
+              <div class="form-row-new">
+                <div class="form-label">Schedule :</div>
+                <div class="form-input">
+                  <div class="schedule-box">
+                    <label class="schedule-option">
+                      <span>Send Now</span>
+                      <input type="radio" name="schedule" id="send-now" checked>
+                    </label>
+                    <label class="schedule-option">
+                      <span>Send Later</span>
+                      <input type="radio" name="schedule" id="send-later">
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Buttons -->
+              <div class="form-row-new">
+                <div class="form-label"></div>
+                <div class="form-input flex-row">
+                  <button id="launch-btn" class="btn-launch"><i class="fa-solid fa-check"></i> Launch Campaign</button>
+                  <button id="preview-btn" class="btn-preview-new"><i class="fa-solid fa-magnifying-glass"></i> Preview</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Reports View -->
+        <section id="reports-view" class="view-section hidden">
+          <div class="view-header">
+            <h1>Campaign History <small>View your previous activities</small></h1>
+          </div>
+          <div class="table-container card">
+            <table id="reports-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Message</th>
+                  <th>Total</th>
+                  <th>Sent</th>
+                  <th>Failed</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="reports-body">
+                <tr>
+                  <td colspan="6" style="text-align: center; padding: 20px;">No campaigns found.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Templates View -->
+        <section id="templates-view" class="view-section hidden">
+          <div class="breadcrumb">
+            <i class="fa-solid fa-house"></i> / Template Management
+          </div>
+          
+          <div class="view-header-row">
+            <h1>Templates <small>create & manage SMS Templates</small></h1>
+            <button class="btn-black"><i class="fa-solid fa-plus"></i> Add New Template</button>
+          </div>
+
+          <div class="card table-card">
+            <div class="table-controls">
+              <div class="records-per-page">
+                <select>
+                  <option>10</option>
+                  <option>25</option>
+                  <option>50</option>
+                </select>
+                <span>records per page</span>
+              </div>
+              <div class="table-search">
+                <label>Search:</label>
+                <input type="text">
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Name <i class="fa-solid fa-sort"></i></th>
+                    <th>Template ID <i class="fa-solid fa-sort"></i></th>
+                    <th>Entity ID <i class="fa-solid fa-sort"></i></th>
+                    <th>Sender ID <i class="fa-solid fa-sort"></i></th>
+                    <th>Text <i class="fa-solid fa-sort"></i></th>
+                    <th>Status <i class="fa-solid fa-sort"></i></th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="7" class="text-center no-data">No data available in table</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="table-footer">
+              <div class="table-info">Showing 0 to 0 of 0 entries</div>
+              <div class="pagination">
+                <button disabled>First</button>
+                <button disabled>Previous</button>
+                <button disabled>Next</button>
+                <button disabled>Last</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Archive View -->
+        <section id="archive-view" class="view-section hidden">
+          <div class="view-header">
+            <h1>Archive Report <small>Access archived campaign data</small></h1>
+          </div>
+          <div class="card">
+            <p>Archive report feature is coming soon.</p>
+          </div>
+        </section>
+
+        <footer class="main-footer">
+          Copyright &copy; 2015 Svit Vasad Campus. All right reserved.
+        </footer>
+      </main>
+    </div>
+  </div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
